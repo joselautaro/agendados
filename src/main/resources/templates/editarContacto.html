@@ -1,52 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+    <!-- Configuración básica del documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar contacto</title>
+
+    <!-- Inclusión de Bootstrap CSS desde CDN para estilos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
     <style>
-        body{
-            background-color: #8d7373;
+        body {
+            background-color: #555555; /* Fondo personalizado */
             color: #fff;
             margin: 0;
             font-family: sans-serif;
         }
-        form{
-            margin: auto;
-            width: 50%;
-            padding: 20px;
-            border: 1px solid #ddd;
+
+        .form-container {
+            background-color: #6c5b5b; /* Contenedor del formulario con fondo y padding */
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 50px;
         }
-        h1{
-            text-align: center;
+
+        label {
+            margin-top: 15px;
         }
-        label{
-            display: block;
-            margin-bottom: 5px;
+
+        .form-check-label {
+            margin-left: 5px;
         }
     </style>
 </head>
+
 <body>
-    <h1>Editar contacto</h1>
-    <form th:action="@{'/agenda/actualizar/' + ${contacto.nombre}}" method="post">
-        <div>
-            <label>Nombre:</label>
-            <input type="text" name="nombre" th:value="${contacto.nombre}" required>
+
+    <div class="container">
+        <!-- Título centrado -->
+        <h1 class="text-center mt-4">Editar contacto</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- Formulario que se enviará al backend para actualizar el contacto -->
+                <form class="form-container" th:action="@{'/agenda/actualizar/' + ${contacto.nombre}}" method="post">
+
+                    <!-- Campo de nombre -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre"
+                               th:value="${contacto.nombre}" required>
+                    </div>
+
+                    <!-- Campo de teléfono -->
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono:</label>
+                        <input type="number" class="form-control" id="telefono" name="telefono"
+                               th:value="${contacto.telefono}" required>
+                    </div>
+
+                    <!-- Campo de email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               th:value="${contacto.email}" required>
+                    </div>
+
+                    <!-- Campo de etiquetas en formato de texto separado por coma -->
+                    <div class="mb-3">
+                        <label for="etiquetasTexto" class="form-label">Etiquetas (separadas por coma):</label>
+                        <input type="text" class="form-control" id="etiquetasTexto" name="etiquetasTexto"
+                               placeholder="ej: trabajo, familia, cliente"
+                               th:value="${contacto.etiquetas != null ? #strings.listJoin(contacto.etiquetas, ', ') : ''}">
+                    </div>
+
+                    <!-- Checkbox para marcar como favorito -->
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="favorito" name="checkbox"
+                               th:checked="${contacto.favorito}">
+                        <label class="form-check-label" for="favorito">
+                            Marcar como favorito
+                        </label>
+                    </div>
+
+                    <!-- Botones de acción: Actualizar o Cancelar -->
+                    <div class="row">
+                        <div class="col-6 d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">Actualizar</button>
+                        </div>
+                        <div class="col-6 d-grid">
+                            <a href="/agenda" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
         </div>
-        <div>
-            <label>Teléfono</label>
-            <input type="number" name="telefono" th:value="${contacto.telefono}" required>
-        </div>
-        <div>
-            <label>Email:</label>
-            <input type="email" name="email" th:value="${contacto.email}" required>
-        </div>
-        <div>
-            <label>Favorito:</label>
-            <input class="checkbox" type="checkbox" name="checkbox" th:checked="${contacto.favorito}">
-        </div>
-        <button type="submit">Actualizar</button>
-    </form>
-    
+    </div>
+
+    <!-- Inclusión del bundle JS de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
+
+

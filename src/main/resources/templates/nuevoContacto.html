@@ -1,67 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Configuración de codificación y vista para dispositivos móviles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar contacto</title>
+
+    <!-- Inclusión de Bootstrap desde CDN para estilos responsivos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados para la página -->
     <style>
-        body{
-            background-color: #8d7373;
-            color: #fff;
+        body {
+            background-color: #555555; /* Fondo general de la página */
+            color: #fff;                /* Texto en blanco */
             margin: 0;
             font-family: sans-serif;
         }
-        h1{
-            text-align: center;
-        }
-        form{
-            margin: auto;
-            width: 50%;
-            padding: 20px;
-            border: 1px solid #ddd;
-        }
-        label{
-            display: block;
-        }
-        input{
-            width: 100%;
-            padding: 5px;
+        .form-container {
+            background-color: #6c5b5b;  /* Fondo del formulario */
+            padding: 30px;
             border-radius: 10px;
+            margin-top: 50px;
         }
-        .checkbox{
-            float: left;
+        label {
+            margin-top: 15px; /* Espaciado superior para las etiquetas */
         }
-        button{
-            width: 100%;
-            border: 1px solid #fff;
-            border-radius: 5px;
-            background-color: transparent;
-            color: #fff;
-            font-weight: bold;
+        .form-check-label {
+            margin-left: 5px;
         }
     </style>
 </head>
+
 <body>
-    <h1>Agregar nuevo contacto</h1>
-    <form action="/agenda/guardar" method="post">
-        <div>
-            <label>Nombre:</label>
-            <input type="text" name="nombre" th:value="${contacto.nombre}" required>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Título centrado -->
+        <h1 class="text-center mt-4">Agregar nuevo contacto</h1>
+
+        <!-- Fila con centrado horizontal del formulario -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- Formulario para enviar datos del nuevo contacto -->
+                <form class="form-container" action="/agenda/guardar" method="post">
+
+                    <!-- Campo para el nombre del contacto -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre"
+                               th:value="${contacto.nombre}" required>
+                    </div>
+
+                    <!-- Campo para el teléfono -->
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono:</label>
+                        <input type="number" class="form-control" id="telefono" name="telefono"
+                               th:value="${contacto.telefono}" required>
+                    </div>
+
+                    <!-- Campo para el email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               th:value="${contacto.email}" required>
+                    </div>
+
+                    <!-- Campo adicional para ingresar etiquetas separadas por coma -->
+                    <div class="mb-3">
+                        <label for="etiquetasTexto" class="form-label">Etiquetas (separadas por coma):</label>
+                        <input type="text" class="form-control" id="etiquetasTexto" name="etiquetasTexto"
+                               placeholder="ej: trabajo, familia, cliente"
+                               th:value="${contacto.etiquetas != null ? #strings.listJoin(contacto.etiquetas, ', ') : ''}">
+                    </div>
+
+                    <!-- Botones para guardar o cancelar -->
+                    <div class="row">
+                        <!-- Botón de enviar (guardar) -->
+                        <div class="col-6 d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                        </div>
+                        <!-- Botón de cancelar (regresa a la agenda) -->
+                        <div class="col-6 d-grid">
+                            <a href="/agenda" class="btn btn-secondary btn-lg">Cancelar</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
         </div>
-        <div>
-            <label>Teléfono</label>
-            <input type="number" name="telefono" th:value="${contacto.telefono}" required>
-        </div>
-        <div>
-            <label>Email:</label>
-            <input type="email" name="email" th:value="${contacto.email}" required>
-        </div>
-        <div>
-            <label>Favorito:</label>
-            <input class="checkbox" type="checkbox" name="checkbox" th:value="${contacto.favorito}">
-        </div>
-        <button type="submit">Guardar</button>
-    </form>
-    
+    </div>
+
+    <!-- Inclusión del bundle de Bootstrap para funcionalidades JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
